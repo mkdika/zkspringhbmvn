@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="shortcut icon" href="/favicon.ico" ?>
+<?page title="Zk MVVM CRUD" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window closable="false" id="index" shadow="false" border="normal" width="100%" height="100%"
+            position="center" style="padding: 0px 3px 5px 3px;"
+            apply="org.zkoss.bind.BindComposer" 
+            validationMessages="@id('vmsgs')" 
+            viewModel="@id('vm') @init('com.mkdika.zkspringhbmvn.ui.web.IndexVm')" >            
+        <caption id="caption" label="@load(vm.appInfo)"
+                 style="margin: 0px 0px 0px 10px;vertical-align: middle;padding:0px 15px 0px 0px;font-weight: bold;font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;color:#333;"/>
+        <toolbar>
+            <toolbarbutton width="38px" height="40px" image="/assets/image/add.png" tooltiptext="Add"
+                           visible="@load(empty vm.selected)"
+                           onClick="@command('addClick')"/>                                    
+            <toolbarbutton width="38px" height="40px" image="/assets/image/del.png" tooltiptext="Delete" 
+                           visible="@load(vm.selected.id)"  
+                           onClick="@command('delClick')"/>                        
+            <toolbarbutton width="38px" height="40px" image="/assets/image/save.png" tooltiptext="Save"            
+                           visible="@load(vm.selected)"  
+                           onClick="@command('saveClick')" />                         
+            <toolbarbutton width="38px" height="40px" image="/assets/image/cancel.png" tooltiptext="Cancel"
+                           visible="@load(vm.selected)"  
+                           onClick="@command('cancelClick')"/>                         
+            <toolbarbutton width="38px" height="40px" image="/assets/image/refresh.png" tooltiptext="Refresh"                           
+                           onClick="@command('refreshClick')"/>                                     
+            <toolbarbutton width="38px" height="40px" image="/assets/image/info.png" tooltiptext="Information"                          
+                           onClick="@command('infoClick')"/>
+        </toolbar>
+        <grid> 
+            <columns>
+                <column width="120px" />
+                <column width="" />               
+            </columns>              
+            <rows>   
+                <row>
+                    Id
+                    <textbox id="id" disabled="true" width="50px" 
+                             value="@load(vm.selected.id)"/>
+                </row>             
+                <row>
+                    Name
+                    <textbox id="personname" width="300px" maxlength="255" disabled="@load(empty vm.selected)"
+                             value="@bind(vm.selected.personname)" />
+                </row>                 
+                <row>
+                    Email
+                    <textbox id="email" width="300px" maxlength="100" disabled="@load(empty vm.selected)"
+                             value="@bind(vm.selected.email)" />                    
+                </row> 
+                <row>
+                    Gender
+                    <combobox id="cbgender" model="@load(vm.genderList)" mold="rounded" autodrop="true" autocomplete="true" 
+                              width="150px" disabled="@load(empty vm.selected)"
+                              value="@bind(vm.selected.gender) @converter('com.mkdika.zkspringhbmvn.ui.web.converter.StringListConverter')" >
+                        <template name="model" >
+                            <comboitem label="@load(each)" value="@load(each)" />
+                        </template>
+                    </combobox>                      
+                </row>              
+                <row>                    
+                    Birthday
+                    <datebox id="birthday" width="150px" format="dd/MM/yyyy" disabled="@load(empty vm.selected)" 
+                             value="@bind(vm.selected.birthday)" />
+                </row>
+                <row spans="2">
+                    <div style="overflow:auto;overflow-x:hidden;height:200px !important;margin:1px;width:100%">                          
+                        <listbox id="listdata" width="100%" fixedLayout="true" height="200px"  
+                                 sizedByContent="true" span="true"
+                                 model="@load(vm.lists)" selectedItem="@bind(vm.selected)" 
+                                 mold="paging" pageSize="5" pagingPosition="bottom">
+                    
+                            <listhead sizable="true" >
+                                <listheader label="ID" align="left" sort="auto(id)" />
+                                <listheader label="Person Name" align="left" sort="auto(personname)" />
+                                <listheader label="Email" align="left" sort="auto(email)" />
+                                <listheader label="Birthday" align="left" sort="auto(birthday)" />                                                  
+                            </listhead>
+                            <template name="model" var="item">
+                                <listitem >
+                                    <listcell label="@load(item.id)"/>
+                                    <listcell label="@load(item.personname)"/>
+                                    <listcell label="@load(item.email)"/>
+                                    <listcell label="@load(item.birthday) @converter('formatedDate', format='dd/MM/yyyy')"/>                                    
+                                </listitem>
+                            </template>
+                        </listbox>            
+                    </div>
+                </row>                
+            </rows>        
+        </grid>        
+    </window>
+</zk>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/websocket
+        http://www.springframework.org/schema/websocket/spring-websocket.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+       http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.0.xsd">
+            
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />   
+    
+    <bean id="serviceDao" class="com.mkdika.zkspringhbmvn.service.ServiceDaoImpl" />
+        
+    <context:annotation-config />
+    <context:component-scan base-package="com.mkdika.zkspringhbmvn" />
+    
+    <!--load the properties file -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:application.properties</value>
+        </property>
+    </bean>
+            
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${db.driver}"
+          p:url="${db.url}"
+          p:username="${db.username}"
+          p:password="${db.password}" />
+         
+    <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">        
+        <property name="dataSource" ref="dataSource" />        
+        <property name="packagesToScan" value="com.mkdika.zkspringhbmvn.entity" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>  
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.use_identifer_rollback">${hibernate.use_identifer_rollback}</prop>
+                <prop key="hibernate.enable_lazy_load_no_trans">${hibernate.enable_lazy_load_no_trans}</prop>               
+            </props>
+        </property>  
+    </bean>
+            
+    <!-- Enables the Hibernate @Transactional programming model -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>    
+    
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>            
+</beans>

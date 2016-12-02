@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <toolbar>
+        <toolbarbutton width="38px" height="40px" image="/assets/image/add.png" tooltiptext="Add"
+                       onClick="@command('addClick')" 
+                       visible="@load(vm.visibleAdd)" />
+        <toolbarbutton width="38px" height="40px" image="/assets/image/edit.png" tooltiptext="Edit"
+                       onClick="@command('editClick')" autodisable="self"
+                       visible="@load(vm.visibleEdit)" />
+        <toolbarbutton width="38px" height="40px" image="/assets/image/del.png" tooltiptext="Delete"
+                       onClick="@command('deleteClick')" autodisable="self"
+                       visible="@load(vm.visibleDelete)" />
+        <toolbarbutton width="38px" height="40px" image="/assets/image/save.png" tooltiptext="Save"
+                       onClick="@command('saveClick')" autodisable="self" 
+                       visible="@load(vm.visibleSave)" />
+        <toolbarbutton width="38px" height="40px" image="/assets/image/cancel.png" tooltiptext="Cancel"
+                       onClick="@command('cancelClick')"
+                       visible="@load(vm.visibleCancel)" />
+        <toolbarbutton width="38px" height="40px" image="/assets/image/refresh.png" tooltiptext="Refresh"
+                       onClick="@command('refreshClick')" autodisable="self"
+                       visible="@load(vm.visibleRefresh)" />
+        <toolbarbutton width="38px" height="40px" image="/assets/image/info.png" tooltiptext="Information"                 
+                       onClick="@command('infoClick')"
+                       visible="@load(vm.visibleInfo)"/>
+    </toolbar>
+</zk>
