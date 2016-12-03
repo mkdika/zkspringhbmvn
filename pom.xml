@@ -24,9 +24,9 @@
     
     <dependencies>
         <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.4.01</version>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-ext</artifactId>
+            <version>1.8</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

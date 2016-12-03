@@ -5,7 +5,7 @@ ZK Framework + Spring Framework + Hibernate Framework + **Apache Maven** + MySQL
 
 ## Installation
 - Run file `initdb.sql` to dump the database
-- Edit file `application.properties` to match your MySQL Connection String. The file location as shown below:
+- Edit file `application.properties` to match your MySQL Connection String. The file location as shown as below:
 
 ![Imgur](http://i.imgur.com/Hgh8DLM.png)
 
