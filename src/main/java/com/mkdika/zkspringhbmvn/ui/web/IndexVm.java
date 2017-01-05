@@ -4,10 +4,14 @@ import com.mkdika.zkspringhbmvn.entity.Person;
 import com.mkdika.zkspringhbmvn.helper.AppUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.util.Clients;
 
 /**
@@ -40,8 +44,13 @@ public class IndexVm {
     }
 
     @Command
-    @NotifyChange({"selected", "lists"})
     public void delClick() {
+        msq("Are you sure to Delete?", "Index$deleteConfirm", null);
+    }
+
+    @GlobalCommand
+    @NotifyChange({"selected", "lists"})
+    public void Index$deleteConfirm() {
         if (getSelected() != null) {
             try {
                 if (AppUtil.getWebService().delete(getSelected())) {
@@ -87,6 +96,16 @@ public class IndexVm {
     @NotifyChange("lists")
     public void refreshClick() {
         setLists(AppUtil.getWebService().getPersons());
+    }
+
+    // Confirmation Message Custom Component    
+    public void msq(String content, String bindMethodYes, String bindMethodNo) {
+        Map<String, Object> args = new HashMap<>();
+
+        args.put("sContent", content);
+        args.put("sBindMethodYes", bindMethodYes);
+        args.put("sBindMethodNo", bindMethodNo);
+        Executions.createComponents("/component/msq.zul", null, args);
     }
 
     // ============== Setter & Getter ====================
